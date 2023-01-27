@@ -30,7 +30,7 @@ class SerializedSubscriber(Node):
             raw=True)  # We're subscribing to the serialized bytes, not std_msgs.msg.String
 
     def listener_callback(self, msg):
-        self.get_logger().info('I heard: "%s"' % msg)
+        self.get_logger().info('NINA2!!! I heard: "%s"' % msg)
 
 
 def main(args=None):

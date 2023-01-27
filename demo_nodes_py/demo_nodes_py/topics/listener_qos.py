@@ -37,7 +37,7 @@ class ListenerQos(Node):
             String, 'chatter', self.chatter_callback, qos_profile)
 
     def chatter_callback(self, msg):
-        self.get_logger().info('I heard: [%s]' % msg.data)
+        self.get_logger().info('NINA1!!! I heard: [%s]' % msg.data)
 
 
 def main(argv=sys.argv[1:]):
