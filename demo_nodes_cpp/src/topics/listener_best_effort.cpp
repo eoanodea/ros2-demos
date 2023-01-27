@@ -23,27 +23,27 @@
 
 namespace demo_nodes_cpp
 {
-class ListenerBestEffort : public rclcpp::Node
-{
-public:
-  DEMO_NODES_CPP_PUBLIC
-  explicit ListenerBestEffort(const rclcpp::NodeOptions & options)
-  : Node("listener", options)
+  class ListenerBestEffort : public rclcpp::Node
   {
-    setvbuf(stdout, NULL, _IONBF, BUFSIZ);
-    auto callback =
-      [this](const typename std_msgs::msg::String::SharedPtr msg) -> void
+  public:
+    DEMO_NODES_CPP_PUBLIC
+    explicit ListenerBestEffort(const rclcpp::NodeOptions &options)
+        : Node("listener", options)
+    {
+      setvbuf(stdout, NULL, _IONBF, BUFSIZ);
+      auto callback =
+          [this](const typename std_msgs::msg::String::SharedPtr msg) -> void
       {
-        RCLCPP_INFO(this->get_logger(), "I heard: [%s]", msg->data.c_str());
+        RCLCPP_INFO(this->get_logger(), "I heard nin1: [%s]", msg->data.c_str());
       };
 
-    sub_ = create_subscription<std_msgs::msg::String>("chatter", rclcpp::SensorDataQoS(), callback);
-  }
+      sub_ = create_subscription<std_msgs::msg::String>("chatter", rclcpp::SensorDataQoS(), callback);
+    }
 
-private:
-  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub_;
-};
+  private:
+    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub_;
+  };
 
-}  // namespace demo_nodes_cpp
+} // namespace demo_nodes_cpp
 
 RCLCPP_COMPONENTS_REGISTER_NODE(demo_nodes_cpp::ListenerBestEffort)

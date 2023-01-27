@@ -28,27 +28,28 @@
 
 namespace demo_nodes_cpp
 {
-// Create a Listener class that subclasses the generic rclcpp::Node base class.
-// The main function below will instantiate the class as a ROS node.
-class SerializedMessageListener : public rclcpp::Node
-{
-public:
-  DEMO_NODES_CPP_PUBLIC
-  explicit SerializedMessageListener(const rclcpp::NodeOptions & options)
-  : Node("serialized_message_listener", options)
+  // Create a Listener class that subclasses the generic rclcpp::Node base class.
+  // The main function below will instantiate the class as a ROS node.
+  class SerializedMessageListener : public rclcpp::Node
   {
-    setvbuf(stdout, NULL, _IONBF, BUFSIZ);
-    // We create a callback to a rmw_serialized_message_t here. This will pass a serialized
-    // message to the callback. We can then further deserialize it and convert it into
-    // a ros2 compliant message.
-    auto callback =
-      [](const std::shared_ptr<rclcpp::SerializedMessage> msg) -> void
+  public:
+    DEMO_NODES_CPP_PUBLIC
+    explicit SerializedMessageListener(const rclcpp::NodeOptions &options)
+        : Node("serialized_message_listener", options)
+    {
+      setvbuf(stdout, NULL, _IONBF, BUFSIZ);
+      // We create a callback to a rmw_serialized_message_t here. This will pass a serialized
+      // message to the callback. We can then further deserialize it and convert it into
+      // a ros2 compliant message.
+      auto callback =
+          [](const std::shared_ptr<rclcpp::SerializedMessage> msg) -> void
       {
         // Print the serialized data message in HEX representation
         // This output corresponds to what you would see in e.g. Wireshark
         // when tracing the RTPS packets.
-        std::cout << "I heard data of length: " << msg->size() << std::endl;
-        for (size_t i = 0; i < msg->size(); ++i) {
+        std::cout << "I heard nin2 data of length: " << msg->size() << std::endl;
+        for (size_t i = 0; i < msg->size(); ++i)
+        {
           printf("%02x ", msg->get_rcl_serialized_message().buffer[i]);
         }
         printf("\n");
@@ -62,17 +63,17 @@ public:
         // Finally print the ROS2 message data
         std::cout << "serialized data after deserialization: " << string_msg.data << std::endl;
       };
-    // Create a subscription to the topic which can be matched with one or more compatible ROS
-    // publishers.
-    // Note that not all publishers on the same topic with the same type will be compatible:
-    // they must have compatible Quality of Service policies.
-    sub_ = create_subscription<std_msgs::msg::String>("chatter", 10, callback);
-  }
+      // Create a subscription to the topic which can be matched with one or more compatible ROS
+      // publishers.
+      // Note that not all publishers on the same topic with the same type will be compatible:
+      // they must have compatible Quality of Service policies.
+      sub_ = create_subscription<std_msgs::msg::String>("chatter", 10, callback);
+    }
 
-private:
-  rclcpp::Subscription<rclcpp::SerializedMessage>::SharedPtr sub_;
-};
+  private:
+    rclcpp::Subscription<rclcpp::SerializedMessage>::SharedPtr sub_;
+  };
 
-}  // namespace demo_nodes_cpp
+} // namespace demo_nodes_cpp
 
 RCLCPP_COMPONENTS_REGISTER_NODE(demo_nodes_cpp::SerializedMessageListener)
